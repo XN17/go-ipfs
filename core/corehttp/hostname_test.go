@@ -180,5 +180,9 @@ func TestKnownSubdomainDetails(t *testing.T) {
 }
 
 func equalError(a, b error) bool {
+<<<<<<< HEAD
 	return (a == nil && b == nil) || (a != nil && b != nil && a.Error() == b.Error())
+=======
+	return a == nil && b == nil || a != nil && b != nil && a.Error() == b.Error()
+>>>>>>> feat: support ED25519 at subdomain gw with TLS
 }
