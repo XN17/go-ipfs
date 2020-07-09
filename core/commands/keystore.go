@@ -67,7 +67,7 @@ var keyGenCmd = &cmds.Command{
 	Options: []cmds.Option{
 		cmds.StringOption(keyStoreTypeOptionName, "t", "type of the key to create: rsa, ed25519").WithDefault("rsa"),
 		cmds.IntOption(keyStoreSizeOptionName, "s", "size of the key to generate"),
-		cmds.StringOption(keyFormatOptionName, "f", "output format: b58mh or b36cid").WithDefault("b58mh"),
+		cmds.StringOption(keyFormatOptionName, "f", "output format: b58mh or b36cid").WithDefault("b36cid"),
 	},
 	Arguments: []cmds.Argument{
 		cmds.StringArg("name", true, false, "name of key to create"),
