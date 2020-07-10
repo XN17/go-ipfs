@@ -124,6 +124,7 @@ test_expect_success "Publish test text file to IPNS using ED25519 keys" '
   PEERID=$(ipfs key gen -f=b36cid --type=ed25519 test_key_ed25519 | head -n1 | tr -d "\n") &&
   IPNS_IDv0=$PEERID
   IPNS_IDv1=$PEERID
+  IPNS_IDv1_DAGPB=$(echo "$IPNS_IDv0" | ipfs cid format -v 1 -b base32)
   test_check_peerid "${PEERID}" &&
   ipfs name publish --key test_key_ed25519 --allow-offline -Q "/ipfs/$CIDv1" > name_publish_out &&
   ipfs name resolve "$PEERID"  > output &&
@@ -284,7 +285,7 @@ test_localhost_gateway_response_should_contain \
   "$CID_VAL"
 
 test_localhost_gateway_response_should_contain \
-  "request for {CIDv1-dag-pb}.ipns.localhost redirects to CID with libp2p-key multicodec" \
+  "localhost request for {CIDv1-dag-pb}.ipns.localhost redirects to CID with libp2p-key multicodec" \
   "http://${IPNS_IDv1_DAGPB}.ipns.localhost:$GWAY_PORT" \
   "Location: http://${IPNS_IDv1}.ipns.localhost:$GWAY_PORT/"
 
@@ -422,7 +423,7 @@ test_hostname_gateway_response_should_contain \
   "$CID_VAL"
 
 test_hostname_gateway_response_should_contain \
-  "request for {CIDv1-dag-pb}.ipns.localhost redirects to CID with libp2p-key multicodec" \
+  "hostname request for {CIDv1-dag-pb}.ipns.localhost redirects to CID with libp2p-key multicodec" \
   "${IPNS_IDv1_DAGPB}.ipns.example.com" \
   "http://127.0.0.1:$GWAY_PORT" \
   "Location: http://${IPNS_IDv1}.ipns.example.com/"
