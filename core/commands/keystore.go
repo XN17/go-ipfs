@@ -149,7 +149,7 @@ var keyListCmd = &cmds.Command{
 	},
 	Options: []cmds.Option{
 		cmds.BoolOption("l", "Show extra information about keys."),
-		cmds.StringOption(keyFormatOptionName, "f", "output format: b58mh or b36cid").WithDefault("b58mh"),
+		cmds.StringOption(keyFormatOptionName, "f", "output format: b58mh or b36cid").WithDefault("b36cid"),
 	},
 	Run: func(req *cmds.Request, res cmds.ResponseEmitter, env cmds.Environment) error {
 		if err := verifyFormatLabel(req.Options[keyFormatOptionName].(string)); err != nil {
