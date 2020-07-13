@@ -58,7 +58,7 @@ environment variable:
 	},
 	Options: []cmds.Option{
 		cmds.StringOption(algorithmOptionName, "a", "Cryptographic algorithm to use for key generation.").WithDefault(algorithmDefault),
-		cmds.IntOption(bitsOptionName, "b", "Number of bits to use in the generated RSA private key.").WithDefault(nBitsForKeypairDefault),
+		cmds.IntOption(bitsOptionName, "b", "Number of bits to use in the generated RSA private key."),
 		cmds.BoolOption(emptyRepoOptionName, "e", "Don't add and pin help files to the local storage."),
 		cmds.StringOption(profileOptionName, "p", "Apply profile settings to config. Multiple profiles can be separated by ','"),
 
@@ -87,7 +87,7 @@ environment variable:
 		cctx := env.(*oldcmds.Context)
 		empty, _ := req.Options[emptyRepoOptionName].(bool)
 		algorithm, _ := req.Options[algorithmOptionName].(string)
-		nBitsForKeypair, _ := req.Options[bitsOptionName].(int)
+		nBitsForKeypair, nBitsGiven := req.Options[bitsOptionName].(int)
 
 		var conf *config.Config
 
@@ -111,10 +111,18 @@ environment variable:
 			}
 		}
 
-		identity, err := config.CreateIdentity(os.Stdout, []options.KeyGenerateOption{
-			options.Key.Size(nBitsForKeypair),
-			options.Key.Type(algorithm),
-		})
+		var err error
+		var identity config.Identity
+		if nBitsGiven {
+			identity, err = config.CreateIdentity(os.Stdout, []options.KeyGenerateOption{
+				options.Key.Size(nBitsForKeypair),
+				options.Key.Type(algorithm),
+			})
+		} else {
+			identity, err = config.CreateIdentity(os.Stdout, []options.KeyGenerateOption{
+				options.Key.Type(algorithm),
+			})
+		}
 		if err != nil {
 			return err
 		}
