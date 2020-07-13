@@ -24,7 +24,7 @@ import (
 
 const (
 	nBitsForKeypairDefault = 2048
-	algorithmDefault       = options.Ed25519Key
+	algorithmDefault       = options.RSAKey
 	algorithmOptionName    = "algorithm"
 	bitsOptionName         = "bits"
 	emptyRepoOptionName    = "empty-repo"

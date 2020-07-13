@@ -81,12 +81,20 @@ test_expect_success "ipfs peer id looks good" '
 
 test_expect_success "ipfs init output looks good" '
   STARTFILE="ipfs cat /ipfs/$HASH_WELCOME_DOCS/readme" &&
-  echo "generating ED25519 keypair...done" >expected &&
-  echo "peer identity: $PEERID" >>expected &&
-  echo "initializing IPFS node at $IPFS_PATH" >>expected &&
-  echo "to get started, enter:" >>expected &&
-  printf "\\n\\t$STARTFILE\\n\\n" >>expected &&
-  test_cmp expected actual_init
+
+  echo "generating $BITS-bit RSA keypair...done" >rsa_expected &&
+  echo "peer identity: $PEERID" >>rsa_expected &&
+  echo "initializing IPFS node at $IPFS_PATH" >>rsa_expected &&
+  echo "to get started, enter:" >>rsa_expected &&
+  printf "\\n\\t$STARTFILE\\n\\n" >>rsa_expected &&
+
+  echo "generating ED25519 keypair...done" >ed25519_expected &&
+  echo "peer identity: $PEERID" >>ed25519_expected &&
+  echo "initializing IPFS node at $IPFS_PATH" >>ed25519_expected &&
+  echo "to get started, enter:" >>ed25519_expected &&
+  printf "\\n\\t$STARTFILE\\n\\n" >>ed25519_expected &&
+
+  test_cmp rsa_expected actual_init
 '
 
 test_expect_success "Welcome readme exists" '
@@ -108,10 +116,16 @@ test_expect_success "ipfs peer id looks good" '
 '
 
 test_expect_success "'ipfs init --empty-repo' output looks good" '
-  echo "generating ED25519 keypair...done" >expected &&
-  echo "peer identity: $PEERID" >>expected &&
-  echo "initializing IPFS node at $IPFS_PATH" >>expected &&
-  test_cmp expected actual_init
+
+  echo "generating $BITS-bit RSA keypair...done" >rsa_expected &&
+  echo "peer identity: $PEERID" >>rsa_expected &&
+  echo "initializing IPFS node at $IPFS_PATH" >>rsa_expected &&
+
+  echo "generating ED25519 keypair...done" >ed25519_expected &&
+  echo "peer identity: $PEERID" >>ed25519_expected &&
+  echo "initializing IPFS node at $IPFS_PATH" >>ed25519_expected &&
+
+  test_cmp rsa_expected actual_init
 '
 
 test_expect_success "Welcome readme doesn't exist" '
